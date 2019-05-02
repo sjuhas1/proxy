@@ -21,7 +21,7 @@ vagrant ssh proxy
 
 #### What is inside
 A vagrant setup to run a puppet master (`puppet`) and a domain proxy (`proxy`).
-The provisioning of the instances is done via vagrant, with a bitof puppet aid.
-The excercise is to setup the `domain proxy` with proper reverse and forward 
+The provisioning of the instances is done via vagrant, with a bit of puppet aid.
+The excercise is to setup a domain proxy with proper reverse and forward 
 proxy settings.
 
