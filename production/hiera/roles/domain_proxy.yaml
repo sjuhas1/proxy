@@ -1,0 +1,43 @@
+---
+nginx::nginx_upstreams:
+  'to_10_10_10_10':
+    ensure: present
+    members:
+      '10.10.10.10':
+        fail_timeout: '5s'
+        max_fails: 3
+  'to_10_20_20_20':
+    ensure: present
+    members:
+      '10.20.20.20':
+        fail_timeout: '5s'
+        max_fails: 3
+
+nginx::nginx_servers:
+  'default':
+    ensure: absent
+  'domain.com':
+    server_name: 
+      - 'domain.com'
+    proxy: 'http://to_10_10_10_10'
+    ssl: true
+    ssl_cert: '/etc/ssl/certs/ssl-cert-snakeoil.pem'
+    ssl_key: '/etc/ssl/private/ssl-cert-snakeoil.key'
+    listen_port: 443
+    ssl_port: 443
+    locations:
+      'resource2':
+        location: '~ ^/resource2(.*)$'
+        proxy: 'http://to_10_20_20_20/$1'
+        ssl_only: true
+  'forward.domain.com':
+    server_name:
+      - 'forward.domain.com'
+    listen_port: 3128
+    resolver:
+      - '1.1.1.1'
+    proxy: 'http://$http_host$uri$is_args$args'
+    format_log: 'mycombined'
+    
+nginx::log_format:
+  'mycombined': '$remote_addr - [$time_local] "$request" - $request_time - $status "$http_referer" "$http_user_agent" $scheme'

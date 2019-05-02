@@ -1,0 +1,13 @@
+:backends:
+  - yaml
+
+## Adjust datadir to match your environments hiera path.
+:yaml:
+  :datadir: /etc/puppet/code/environments/production/hiera
+
+:hierarchy:
+  - "nodes/%{::fqdn}"
+  - "roles/%{::domain_role}"
+  - common
+
+:merge_behavior: deeper
