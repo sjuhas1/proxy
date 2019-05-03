@@ -14,8 +14,6 @@ nginx::nginx_upstreams:
         max_fails: 3
 
 nginx::nginx_servers:
-  'default':
-    ensure: absent
   'domain.com':
     server_name: 
       - 'domain.com'
